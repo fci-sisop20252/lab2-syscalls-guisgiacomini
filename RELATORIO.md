@@ -105,47 +105,47 @@ Quanto menor o número de syscalls, mais rápida é a execução do programa. Is
 ## 4️⃣ Exercício 4 - Cópia de Arquivo
 
 ### 📈 Resultados:
-- Bytes copiados: _____
-- Operações: _____
-- Tempo: _____ segundos
-- Throughput: _____ KB/s
+- Bytes copiados: 1364
+- Operações: 6
+- Tempo: 0.000164 segundos
+- Throughput: 8122.14 KB/s
 
 ### ✅ Verificação:
 ```bash
 diff dados/origem.txt dados/destino.txt
 ```
-Resultado: [ ] Idênticos [ ] Diferentes
+Resultado: [x] Idênticos [ ] Diferentes
 
 ### 🔍 Análise
 
 **1. Por que devemos verificar que bytes_escritos == bytes_lidos?**
 
 ```
-[Sua análise aqui]
+Para garantir que a cópia é exata e ocorreu sem erros.
 ```
 
 **2. Que flags são essenciais no open() do destino?**
 
 ```
-[Sua análise aqui]
+Para garantir que o programa tem permissão para escrever os bytes no destino.
 ```
 
 **3. O número de reads e writes é igual? Por quê?**
 
 ```
-[Sua análise aqui]
+Não. Existe um read a mais. É o último read, que lê 0 bytes, indicando que não há mais bytes para serem copiados da origem. 
 ```
 
 **4. Como você saberia se o disco ficou cheio?**
 
 ```
-[Sua análise aqui]
+Caso a operação de escrita write() tenha alguma falha, retornando -1 ou um número menor de bytes escritos em relação aos lidos.
 ```
 
 **5. O que acontece se esquecer de fechar os arquivos?**
 
 ```
-[Sua análise aqui]
+O file descriptor continua alocado até a finalização do programa, ocupando espaço desnecessário.
 ```
 
 ---
@@ -157,19 +157,19 @@ Resultado: [ ] Idênticos [ ] Diferentes
 **1. Como as syscalls demonstram a transição usuário → kernel?**
 
 ```
-[Sua análise aqui]
+As syscalls realizam tarefas que são permitidas somente ao kernel. Dessa forma, ocorre uma interrupção na execução iniciada pelo usuário e o kernel assume as funções desejadas.
 ```
 
 **2. Qual é o seu entendimento sobre a importância dos file descriptors?**
 
 ```
-[Sua análise aqui]
+Os file descriptors são importantes para o kernel saber os locais de escrita e leitura, sem acessar memória em locais não previstos. Ele conecta o kernel aos recursos de entrada e saída.
 ```
 
 **3. Discorra sobre a relação entre o tamanho do buffer e performance:**
 
 ```
-[Sua análise aqui]
+Quanto maior o buffer, menor é o número de syscalls necessárias para a completude da execução. Como a chamada de sistema é um processo custoso, economizar no número de chamadas resulta em economizar tempo.
 ```
 
 ### ⚡ Comparação de Performance
@@ -180,21 +180,21 @@ time ./ex4_copia
 time cp dados/origem.txt dados/destino_cp.txt
 ```
 
-**Qual foi mais rápido?** _____
+**Qual foi mais rápido?** ex4_copia
 
 **Por que você acha que foi mais rápido?**
 
 ```
-[Sua análise aqui]
+Provavelmente porque o código do exercício é muito mais simples e menor do que o cp do sistema Linux e acaba sendo executado 1 ou 2 ms mais rápido em arquivos muito pequenos esse. Como o cp deve ser extremamente otimizado, a performance dele em arquivos maiores deve ser consideravelmente maior se comparado ao meu código.
 ```
 
 ---
 
 ## 📤 Entrega
 Certifique-se de ter:
-- [ ] Todos os códigos com TODOs completados
-- [ ] Traces salvos em `traces/`
-- [ ] Este relatório preenchido como `RELATORIO.md`
+- [x] Todos os códigos com TODOs completados
+- [x] Traces salvos em `traces/`
+- [x] Este relatório preenchido como `RELATORIO.md`
 
 ```bash
 strace -e write -o traces/ex1a_trace.txt ./ex1a_printf
