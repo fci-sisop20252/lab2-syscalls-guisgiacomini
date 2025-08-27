@@ -19,7 +19,11 @@ strace -e write ./ex1b_write
 **2. Por que há diferença entre os dois métodos? Consulte o docs/printf_vs_write.md**
 
 ```
-O printf() é uma função da biblioteca padrão do C, que utiliza a syscall write() na usa implementação. A syscall write() apenas escreve uma quantidade definida de bytes definidos. A função printf() serve como uma camada de abstração de usa a syscall quando necessária. Dessa forma, permite a formatação de texto, manipulando dados além da saída no terminal. Além disso, nem sempre o número de syscalls write() utilizadas pelo programa é o mesmo dos usos da função printf().
+O printf() é uma função da biblioteca padrão do C, que utiliza a syscall write() na usa implementação. 
+A syscall write() apenas escreve uma quantidade definida de bytes definidos. 
+A função printf() serve como uma camada de abstração de usa a syscall quando necessária. 
+Dessa forma, permite a formatação de texto, manipulando dados além da saída no terminal. 
+Além disso, nem sempre o número de syscalls write() utilizadas pelo programa é o mesmo dos usos da função printf().
 ```
 
 **3. Qual método é mais previsível? Por quê você acha isso?**
@@ -46,13 +50,15 @@ strace -e openat,read,close ./ex2_leitura
 **1. Qual file descriptor foi usado? Por que não começou em 0, 1 ou 2?**
 
 ```
-Foi utilizado o file descriptor 3. Não foi utilizado 0, 1 ou 2 pois já são file descriptors reservados para a entrada e saída padrão do sistema. No caso, 0 é a entrada padrão (teclado), 1 é a saída padrão (terminal) e 2 é a saída de erro padrão (terminal).
+Foi utilizado o file descriptor 3. Não foi utilizado 0, 1 ou 2 pois já são file descriptors reservados para a entrada e saída padrão do sistema. 
+No caso, 0 é a entrada padrão (teclado), 1 é a saída padrão (terminal) e 2 é a saída de erro padrão (terminal).
 ```
 
 **2. Como você sabe que o arquivo foi lido completamente?**
 
 ```
-A frase "Última linha do arquivo" foi exibida normalmente no terminal. Isso indica que o arquivo foi lido completamente e armazenado no buffer.
+A frase "Última linha do arquivo" foi exibida normalmente no terminal. 
+Isso indica que o arquivo foi lido completamente e armazenado no buffer.
 ```
 
 **3. Por que verificar retorno de cada syscall?**
@@ -85,7 +91,8 @@ Para saber informações importantes como o número do file descriptor e a quant
 **1. Como o tamanho do buffer afeta o número de syscalls?**
 
 ```
-Quanto maior o buffer, maior a quantidade de dados que uma leitura consegue fazer. Logo, são necessárias menos chamadas da syscall read() na execução do programa.
+Quanto maior o buffer, maior a quantidade de dados que uma leitura consegue fazer. 
+Logo, são necessárias menos chamadas da syscall read() na execução do programa.
 ```
 
 **2. Todas as chamadas read() retornaram BUFFER_SIZE bytes? Discorra brevemente sobre**
@@ -97,7 +104,8 @@ Não. A última leitura não retorna BUFFER_SIZE bytes pois há uma quantidade m
 **3. Qual é a relação entre syscalls e performance?**
 
 ```
-Quanto menor o número de syscalls, mais rápida é a execução do programa. Isso ocorre pois uma chamada de sistema causa uma interrupção do kernel, sendo um processo custoso.
+Quanto menor o número de syscalls, mais rápida é a execução do programa. 
+Isso ocorre pois uma chamada de sistema causa uma interrupção do kernel, sendo um processo custoso.
 ```
 
 ---
@@ -157,19 +165,22 @@ O file descriptor continua alocado até a finalização do programa, ocupando es
 **1. Como as syscalls demonstram a transição usuário → kernel?**
 
 ```
-As syscalls realizam tarefas que são permitidas somente ao kernel. Dessa forma, ocorre uma interrupção na execução iniciada pelo usuário e o kernel assume as funções desejadas.
+As syscalls realizam tarefas que são permitidas somente ao kernel. 
+Dessa forma, ocorre uma interrupção na execução iniciada pelo usuário e o kernel assume as funções desejadas.
 ```
 
 **2. Qual é o seu entendimento sobre a importância dos file descriptors?**
 
 ```
-Os file descriptors são importantes para o kernel saber os locais de escrita e leitura, sem acessar memória em locais não previstos. Ele conecta o kernel aos recursos de entrada e saída.
+Os file descriptors são importantes para o kernel saber os locais de escrita e leitura, sem acessar memória em locais não previstos. 
+Ele conecta o kernel aos recursos de entrada e saída.
 ```
 
 **3. Discorra sobre a relação entre o tamanho do buffer e performance:**
 
 ```
-Quanto maior o buffer, menor é o número de syscalls necessárias para a completude da execução. Como a chamada de sistema é um processo custoso, economizar no número de chamadas resulta em economizar tempo.
+Quanto maior o buffer, menor é o número de syscalls necessárias para a completude da execução. 
+Como a chamada de sistema é um processo custoso, economizar no número de chamadas resulta em economizar tempo.
 ```
 
 ### ⚡ Comparação de Performance
@@ -185,7 +196,9 @@ time cp dados/origem.txt dados/destino_cp.txt
 **Por que você acha que foi mais rápido?**
 
 ```
-Provavelmente porque o código do exercício é muito mais simples e menor do que o cp do sistema Linux e acaba sendo executado 1 ou 2 ms mais rápido em arquivos muito pequenos esse. Como o cp deve ser extremamente otimizado, a performance dele em arquivos maiores deve ser consideravelmente maior se comparado ao meu código.
+Provavelmente porque o código do exercício é muito mais simples e menor do que o cp do sistema Linux 
+e acaba sendo executado 1 ou 2 ms mais rápido em arquivos muito pequenos esse. Como o cp deve ser extremamente otimizado, 
+a performance dele em arquivos maiores deve ser consideravelmente maior se comparado ao meu código.
 ```
 
 ---
