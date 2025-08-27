@@ -66,38 +66,38 @@ Para saber informações importantes como o número do file descriptor e a quant
 ## 3️⃣ Exercício 3 - Contador com Loop
 
 ### 📋 Resultados (BUFFER_SIZE = 64):
-- Linhas: _____ (esperado: 25)
-- Caracteres: _____
-- Chamadas read(): _____
-- Tempo: _____ segundos
+- Linhas: 25 (esperado: 25)
+- Caracteres: 1300
+- Chamadas read(): 21
+- Tempo: 0.000115 segundos
 
 ### 🧪 Experimentos com buffer:
 
 | Buffer Size | Chamadas read() | Tempo (s) |
 |-------------|-----------------|-----------|
-| 16          |                 |           |
-| 64          |                 |           |
-| 256         |                 |           |
-| 1024        |                 |           |
+| 16          |      82           |      0.000184     |
+| 64          |       21         |     0.000115      |
+| 256         |        6       |     0.000069      |
+| 1024        |        2      |      0.000059     |
 
 ### 🔍 Análise
 
 **1. Como o tamanho do buffer afeta o número de syscalls?**
 
 ```
-[Sua análise aqui]
+Quanto maior o buffer, maior a quantidade de dados que uma leitura consegue fazer. Logo, são necessárias menos chamadas da syscall read() na execução do programa.
 ```
 
 **2. Todas as chamadas read() retornaram BUFFER_SIZE bytes? Discorra brevemente sobre**
 
 ```
-[Sua análise aqui]
+Não. A última leitura não retorna BUFFER_SIZE bytes pois há uma quantidade menor de bytes para serem lidos do que o tamanho do buffer
 ```
 
 **3. Qual é a relação entre syscalls e performance?**
 
 ```
-[Sua análise aqui]
+Quanto menor o número de syscalls, mais rápida é a execução do programa. Isso ocorre pois uma chamada de sistema causa uma interrupção do kernel, sendo um processo custoso.
 ```
 
 ---
